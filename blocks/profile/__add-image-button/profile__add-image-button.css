@@ -1,0 +1,9 @@
+.profile__add-image-button {
+  background: url("../../../images/add-button.svg") center / 22px 22px no-repeat;
+  box-sizing: border-box;
+  border: 1px solid #fff;
+  min-width: 150px;
+  min-height: 50px;
+  margin: 75px 0 0;
+  align-self: flex-start;
+}

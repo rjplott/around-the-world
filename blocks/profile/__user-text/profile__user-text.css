@@ -1,0 +1,7 @@
+.profile__user-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  max-width: 450px;
+}
