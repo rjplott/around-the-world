@@ -7,3 +7,17 @@
   min-height: 24px;
   margin: 77px 0 0;
 }
+
+@media screen and (max-width: 920px) {
+  .profile__edit-button {
+    margin-top: 70px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .profile__edit-button {
+    min-width: 17px;
+    min-height: 17px;
+    margin-top: 34px;
+  }
+}

@@ -7,3 +7,11 @@
   margin: 75px 0 0;
   align-self: flex-start;
 }
+
+@media screen and (max-width: 680px) {
+  .profile__add-image-button {
+    min-width: 88.125%;
+    align-self: center;
+    margin-top: 36px;
+  }
+}

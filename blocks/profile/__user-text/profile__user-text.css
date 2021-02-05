@@ -5,3 +5,9 @@
   align-content: flex-start;
   max-width: 450px;
 }
+
+@media screen and (max-width: 550px) {
+  .profile__user-text {
+    max-width: 230px;
+  }
+}
