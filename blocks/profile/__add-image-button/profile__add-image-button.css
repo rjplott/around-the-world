@@ -1,22 +1,31 @@
 .profile__add-image-button {
   background: url("../../../images/add-button.svg") center / 22px 22px no-repeat;
   box-sizing: border-box;
-  border: 1px solid #fff;
+  border: 2px solid #fff;
+  border-radius: 2px;
   min-width: 150px;
   min-height: 50px;
   margin: 75px 0 0;
   align-self: flex-start;
   cursor: pointer;
+  padding: 0;
 }
 
 .profile__add-image-button:focus {
   outline: none;
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 920px) {
+  .profile__add-image-button {
+    margin-right: 27px;
+  }
+}
+
+@media screen and (max-width: 690px) {
   .profile__add-image-button {
     min-width: 88.125%;
     align-self: center;
     margin-top: 36px;
+    margin-right: 0;
   }
 }

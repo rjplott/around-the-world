@@ -10,6 +10,12 @@
   }
 }
 
+@media screen and (max-width: 690px) {
+  .profile__user-image {
+    margin-bottom: 0;
+  }
+}
+
 @media screen and (max-width: 550px) {
   .profile__user-image {
     margin: 42px 0 0;
