@@ -1,0 +1,15 @@
+.edit-form__form {
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  min-width: 430px;
+}
+
+@media screen and (max-width: 550px) {
+  .edit-form__form {
+    min-width: 282px;
+  }
+}
