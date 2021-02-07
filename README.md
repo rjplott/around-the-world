@@ -1,16 +1,18 @@
-# Project 4: Around The U.S.
+# Around the US
+
+### Site
+
+You can visit Around the US at: [https://rjplott.github.io/web_project_4/](https://rjplott.github.io/web_project_4/)
 
 ### Overview
 
-* Figma
-* Images
+- Intro
+- Technologies
 
-**Figma**
+**Intro**
 
-* [Link to the project in Figma](https://www.figma.com/file/SurN1jaeEQIhuZEDMhmWWf/Sprint-4-Around-The-U.S.-desktop-mobile?node-id=0%3A1)
+Around the US is an interactive page where users can add, remove, or like photos from around the United Status.
 
-**Images**
+**Technologies**
 
-The way you'll do this at work is by exporting images directly from Figma — we recommend doing that to practice more. Don't forget to optimize them [here](https://tinypng.com/), so your project loads faster. 
-
-Have fun with JavaScript!
+This project is currently implemented using vanilla HTML, CSS, and JavaScript. It specifially utilizes a combination various positioning techniques, grid, and flexbox to create the layout. CSS transitions are utilized as well as semantic HTML elements. The BEM methodology is used for styling various blocks and components and for organizing the CSS files. Additionally, it utilizes various responsive techniques, including responsive units and the max-width and min-width properties, to create a responsive website thet displays correctly on screens of various sizes. Vanilla JavaScript DOM manipulation in conjunction with event listeners is used to allow users to update their profile, including the use of `addEventListner()` and `querySelector()`.
