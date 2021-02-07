@@ -9,6 +9,7 @@
   font-weight: 400;
   text-align: center;
   cursor: pointer;
+  transition: opacity 1s ease-in;
 }
 
 @media screen and (max-width: 550px) {
@@ -17,4 +18,8 @@
     min-height: 46px;
     margin-bottom: 25px;
   }
+}
+
+.edit-form__submit:hover {
+  opacity: 0.8;
 }

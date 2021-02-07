@@ -9,6 +9,7 @@
   align-self: flex-start;
   cursor: pointer;
   padding: 0;
+  transition: opacity 1s ease-in;
 }
 
 .profile__add-image-button:focus {
@@ -28,4 +29,8 @@
     margin-top: 36px;
     margin-right: 0;
   }
+}
+
+.profile__add-image-button:hover {
+  opacity: 0.6;
 }

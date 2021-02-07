@@ -10,6 +10,7 @@
   background-size: 100% 100%;
   cursor: pointer;
   transform: rotate(45deg);
+  transition: opacity 1s ease-in;
 }
 
 @media screen and (max-width: 550px) {
@@ -18,4 +19,8 @@
     min-height: 24px;
     right: 0px;
   }
+}
+
+.edit-form__close-button:hover {
+  opacity: 0.6;
 }

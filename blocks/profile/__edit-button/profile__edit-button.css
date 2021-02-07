@@ -7,6 +7,7 @@
   min-height: 24px;
   margin: 77px 0 0;
   cursor: pointer;
+  transition: opacity 1s ease-in;
 }
 
 .profile__edit-button:focus {
@@ -25,4 +26,8 @@
     min-height: 17px;
     margin-top: 34px;
   }
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
 }
