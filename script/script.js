@@ -2,7 +2,6 @@ let userProfile = document.querySelector(".profile");
 let editForm = document.querySelector(".edit-form");
 let editButton = userProfile.querySelector(".profile__edit-button");
 let closeFormButton = editForm.querySelector(".edit-form__close-button");
-let saveButton = editForm.querySelector(".edit-form__submit");
 let userName = userProfile.querySelector(".profile__user-name");
 let userTitle = userProfile.querySelector(".profile__user-title");
 let userNameInput = editForm.querySelector(
@@ -18,15 +17,14 @@ function handleEditProfileClick() {
   editForm.classList.add("edit-form_opened");
 }
 
-function handleCloseEditFormClick(event) {
-  event.preventDefault();
+function handleCloseEditForm() {
   editForm.classList.remove("edit-form_opened");
 }
 
 function handleSaveButtonClick(event) {
   event.preventDefault();
   updateUserProfile();
-  editForm.classList.remove("edit-form_opened");
+  handleCloseEditForm();
 }
 
 function setEditFormText() {
@@ -40,5 +38,5 @@ function updateUserProfile() {
 }
 
 editButton.addEventListener("click", handleEditProfileClick);
-closeFormButton.addEventListener("click", handleCloseEditFormClick);
-saveButton.addEventListener("click", handleSaveButtonClick);
+closeFormButton.addEventListener("click", handleCloseEditForm);
+editForm.addEventListener("submit", handleSaveButtonClick);
