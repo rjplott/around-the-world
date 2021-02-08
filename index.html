@@ -34,12 +34,20 @@
           <div class="profile__user-text">
             <div class="profile__wrapper">
               <h1 class="profile__user-name">Jacques Cousteau</h1>
-              <button class="profile__edit-button"></button>
+              <button
+                aria-label="Edit Profile"
+                type="button"
+                class="profile__edit-button"
+              ></button>
             </div>
             <p class="profile__user-title">Explorer</p>
           </div>
         </div>
-        <button class="profile__add-image-button"></button>
+        <button
+          aria-label="Add Image"
+          type="button"
+          class="profile__add-image-button"
+        ></button>
       </section>
       <section class="gallery">
         <div class="card">
@@ -50,7 +58,11 @@
           />
           <div class="card__text-container">
             <h2 class="card__label">Yosemite Valley</h2>
-            <button class="card__like-button"></button>
+            <button
+              aria-label="Like Image"
+              type="button"
+              class="card__like-button"
+            ></button>
           </div>
         </div>
         <div class="card">
@@ -61,7 +73,11 @@
           />
           <div class="card__text-container">
             <h2 class="card__label">Lake Louise</h2>
-            <button class="card__like-button"></button>
+            <button
+              aria-label="Like Image"
+              type="button"
+              class="card__like-button"
+            ></button>
           </div>
         </div>
         <div class="card">
@@ -72,7 +88,11 @@
           />
           <div class="card__text-container">
             <h2 class="card__label">Bald Mountains</h2>
-            <button class="card__like-button"></button>
+            <button
+              aria-label="Like Image"
+              type="button"
+              class="card__like-button"
+            ></button>
           </div>
         </div>
         <div class="card">
@@ -83,7 +103,11 @@
           />
           <div class="card__text-container">
             <h2 class="card__label">Latermar</h2>
-            <button class="card__like-button"></button>
+            <button
+              aria-label="Like Image"
+              type="button"
+              class="card__like-button"
+            ></button>
           </div>
         </div>
         <div class="card">
@@ -94,7 +118,11 @@
           />
           <div class="card__text-container">
             <h2 class="card__label">Vanoise National Park</h2>
-            <button class="card__like-button"></button>
+            <button
+              aria-label="Like Image"
+              type="button"
+              class="card__like-button"
+            ></button>
           </div>
         </div>
         <div class="card">
@@ -105,7 +133,11 @@
           />
           <div class="card__text-container">
             <h2 class="card__label">Lago di Braies</h2>
-            <button class="card__like-button"></button>
+            <button
+              aria-label="Like Image"
+              type="button"
+              class="card__like-button"
+            ></button>
           </div>
         </div>
       </section>
@@ -116,20 +148,34 @@
     <div class="edit-form">
       <form class="edit-form__form" name="edit-user-form">
         <h2 class="edit-form__form-title">Edit profile</h2>
-        <button type="button" class="edit-form__close-button"></button>
+        <button
+          aria-label="Close Form"
+          type="button"
+          class="edit-form__close-button"
+        ></button>
         <input
+          required
+          placeholder="User's Name"
           type="text"
           name="user-name"
           id="edit-user-name"
           class="edit-form__user-information edit-form__user-information_type_name"
         />
         <input
+          required
+          placeholder="User's Title"
           type="text"
           name="user-title"
           id="edit-user-title"
           class="edit-form__user-information edit-form__user-information_type_title"
         />
-        <button type="submit" class="edit-form__submit">Save</button>
+        <button
+          aria-label="Submit Form"
+          type="submit"
+          class="edit-form__submit"
+        >
+          Save
+        </button>
       </form>
     </div>
     <script src="script/script.js"></script>
