@@ -110,28 +110,28 @@
         </div>
       </section>
     </main>
+    <footer class="footer">
+      <p class="footer__text">&copy; 2021 Around The U.S.</p>
+    </footer>
     <div class="edit-form">
-      <form class="edit-form__form">
+      <form class="edit-form__form" name="edit-user-form">
         <h2 class="edit-form__form-title">Edit profile</h2>
-        <button class="edit-form__close-button"></button>
+        <button type="button" class="edit-form__close-button"></button>
         <input
           type="text"
           name="user-name"
           id="edit-user-name"
-          class="edit-form__user-name"
+          class="edit-form__user-information edit-form__user-information_type_name"
         />
         <input
           type="text"
           name="user-title"
           id="edit-user-title"
-          class="edit-form__user-title"
+          class="edit-form__user-information edit-form__user-information_type_title"
         />
-        <input type="submit" value="Save" class="edit-form__submit" />
+        <button type="submit" class="edit-form__submit">Save</button>
       </form>
     </div>
-    <footer class="footer">
-      <p class="footer__text">&copy; 2021 Around The U.S.</p>
-    </footer>
     <script src="script/script.js"></script>
   </body>
 </html>

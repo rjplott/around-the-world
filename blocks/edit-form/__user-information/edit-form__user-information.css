@@ -1,5 +1,5 @@
-.edit-form__user-title {
-  margin: 30px auto 48px;
+.edit-form__user-information {
+  margin: 0 auto;
   border: 0px;
   font-family: inherit;
   font-weight: 400;
@@ -12,8 +12,7 @@
 }
 
 @media screen and (max-width: 550px) {
-  .edit-form__user-title {
+  .edit-form__user-information {
     min-width: 238px;
-    margin-bottom: 45px;
   }
 }

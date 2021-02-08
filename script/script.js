@@ -3,6 +3,14 @@ let editForm = document.querySelector(".edit-form");
 let editButton = userProfile.querySelector(".profile__edit-button");
 let closeFormButton = editForm.querySelector(".edit-form__close-button");
 let saveButton = editForm.querySelector(".edit-form__submit");
+let userName = userProfile.querySelector(".profile__user-name");
+let userTitle = userProfile.querySelector(".profile__user-title");
+let userNameInput = editForm.querySelector(
+  ".edit-form__user-information_type_name"
+);
+let userTitleInput = editForm.querySelector(
+  ".edit-form__user-information_type_title"
+);
 
 // Event Listener Functions
 function handleEditProfileClick() {
@@ -22,21 +30,11 @@ function handleSaveButtonClick(event) {
 }
 
 function setEditFormText() {
-  let userName = userProfile.querySelector(".profile__user-name");
-  let userTitle = userProfile.querySelector(".profile__user-title");
-  let userNameInput = editForm.querySelector(".edit-form__user-name");
-  let userTitleInput = editForm.querySelector(".edit-form__user-title");
-
   userNameInput.value = userName.textContent;
   userTitleInput.value = userTitle.textContent;
 }
 
 function updateUserProfile() {
-  let userName = userProfile.querySelector(".profile__user-name");
-  let userTitle = userProfile.querySelector(".profile__user-title");
-  let userNameInput = editForm.querySelector(".edit-form__user-name");
-  let userTitleInput = editForm.querySelector(".edit-form__user-title");
-
   userName.textContent = userNameInput.value;
   userTitle.textContent = userTitleInput.value;
 }
