@@ -1,33 +1,29 @@
 let userProfile = document.querySelector(".profile");
-let editForm = document.querySelector(".edit-form");
+let popup = document.querySelector(".popup");
 let editButton = userProfile.querySelector(".profile__edit-button");
-let closeFormButton = editForm.querySelector(".edit-form__close-button");
+let closeFormButton = popup.querySelector(".popup__close-button");
 let userName = userProfile.querySelector(".profile__user-name");
 let userTitle = userProfile.querySelector(".profile__user-title");
-let userNameInput = editForm.querySelector(
-  ".edit-form__user-information_type_name"
-);
-let userTitleInput = editForm.querySelector(
-  ".edit-form__user-information_type_title"
-);
+let userNameInput = popup.querySelector(".popup__user-information_type_name");
+let userTitleInput = popup.querySelector(".popup__user-information_type_title");
 
 // Event Listener Functions
 function handleEditProfileClick() {
-  setEditFormText();
-  editForm.classList.add("edit-form_opened");
+  setpopupText();
+  popup.classList.add("popup_opened");
 }
 
-function handleCloseEditForm() {
-  editForm.classList.remove("edit-form_opened");
+function handleClosepopup() {
+  popup.classList.remove("popup_opened");
 }
 
 function handleSaveButtonClick(event) {
   event.preventDefault();
   updateUserProfile();
-  handleCloseEditForm();
+  handleClosepopup();
 }
 
-function setEditFormText() {
+function setpopupText() {
   userNameInput.value = userName.textContent;
   userTitleInput.value = userTitle.textContent;
 }
@@ -38,5 +34,5 @@ function updateUserProfile() {
 }
 
 editButton.addEventListener("click", handleEditProfileClick);
-closeFormButton.addEventListener("click", handleCloseEditForm);
-editForm.addEventListener("submit", handleSaveButtonClick);
+closeFormButton.addEventListener("click", handleClosepopup);
+popup.addEventListener("submit", handleSaveButtonClick);

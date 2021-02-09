@@ -1,9 +1,0 @@
-.edit-form__user-information_type_name {
-  margin-top: 54px;
-}
-
-@media screen and (max-width: 550px) {
-  .edit-form__user-information_type_name {
-    margin-top: 75px;
-  }
-}

@@ -1,4 +1,4 @@
-.edit-form__submit {
+.popup__submit {
   min-width: 358px;
   min-height: 50px;
   margin: 0 auto 36px;
@@ -15,7 +15,7 @@
 }
 
 @media screen and (max-width: 550px) {
-  .edit-form__submit {
+  .popup__submit {
     min-width: 238px;
     min-height: 46px;
     margin-bottom: 25px;
@@ -23,6 +23,6 @@
   }
 }
 
-.edit-form__submit:hover {
+.popup__submit:hover {
   opacity: 0.8;
 }
