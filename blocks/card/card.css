@@ -1,3 +1,4 @@
+@import url("./__delete-button/card__delete-button.css");
 @import url("./__image/card__image.css");
 @import url("./__text-container/card__text-container.css");
 @import url("./__label/card__label.css");
@@ -8,4 +9,5 @@
   border-radius: 10px;
   background-color: #fff;
   font-size: 0;
+  position: relative;
 }
