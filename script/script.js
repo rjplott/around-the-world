@@ -34,6 +34,9 @@ const createCard = (name, link) => {
   newCard
     .querySelector(".card__like-button")
     .addEventListener("click", handleLikeButtonClick);
+  newCard
+    .querySelector(".card__delete-button")
+    .addEventListener("click", handleDeleteCard);
   gallery.append(newCard);
 };
 
@@ -96,6 +99,10 @@ const updateUserProfile = () => {
 
 const handleLikeButtonClick = (evt) => {
   evt.target.classList.toggle("card__like-button_liked");
+};
+
+const handleDeleteCard = (evt) => {
+  evt.target.parentElement.remove();
 };
 
 createInitialCards();
