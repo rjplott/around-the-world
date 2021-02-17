@@ -54,7 +54,7 @@
     <footer class="footer">
       <p class="footer__text">&copy; 2021 Around The U.S.</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_purpose_edit-user">
       <div class="popup__wrapper">
         <button
           aria-label="Close Form"
@@ -69,7 +69,7 @@
             type="text"
             name="user-name"
             id="edit-user-name"
-            class="popup__user-information popup__user-information_type_name"
+            class="popup__text-input popup__text-input_type_name"
           />
           <input
             required
@@ -77,7 +77,38 @@
             type="text"
             name="user-title"
             id="edit-user-title"
-            class="popup__user-information popup__user-information_type_title"
+            class="popup__text-input popup__text-input_type_title"
+          />
+          <button aria-label="Submit Form" type="submit" class="popup__submit">
+            Save
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_purpose_add-picture">
+      <div class="popup__wrapper">
+        <button
+          aria-label="Close Form"
+          type="button"
+          class="popup__close-button"
+        ></button>
+        <form class="popup__form" name="edit-user-form">
+          <h2 class="popup__form-title">New Place</h2>
+          <input
+            required
+            placeholder="Title"
+            type="text"
+            name="add-image-title"
+            id="add-image-title"
+            class="popup__text-input popup__text-input_type_name"
+          />
+          <input
+            required
+            placeholder="Image URL"
+            type="text"
+            name="add-image-link"
+            id="add-image-link"
+            class="popup__text-input popup__text-input_type_title"
           />
           <button aria-label="Submit Form" type="submit" class="popup__submit">
             Save

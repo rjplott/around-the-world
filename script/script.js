@@ -1,15 +1,22 @@
 const userProfile = document.querySelector(".profile");
-const popup = document.querySelector(".popup");
-const editButton = userProfile.querySelector(".profile__edit-button");
-const closeFormButton = popup.querySelector(".popup__close-button");
-const userName = userProfile.querySelector(".profile__user-name");
-const userTitle = userProfile.querySelector(".profile__user-title");
-const userNameInput = popup.querySelector(".popup__user-information_type_name");
-const userTitleInput = popup.querySelector(
-  ".popup__user-information_type_title"
-);
+const addImagePopup = document.querySelector(".popup_purpose_add-picture");
+const editUserPopup = document.querySelector(".popup_purpose_edit-user");
 const cardTemplate = document.querySelector("#card-template");
 const gallery = document.querySelector(".gallery");
+
+const userName = userProfile.querySelector(".profile__user-name");
+const userTitle = userProfile.querySelector(".profile__user-title");
+const editButton = userProfile.querySelector(".profile__edit-button");
+const addButton = userProfile.querySelector(".profile__add-image-button");
+
+const closePopupButtons = document.querySelectorAll(".popup__close-button");
+
+const userNameInput = editUserPopup.querySelector(
+  ".popup__text-input_type_name"
+);
+const userTitleInput = editUserPopup.querySelector(
+  ".popup__text-input_type_title"
+);
 
 // Create function to initialize our default cards
 const createInitialCards = () => {
@@ -46,7 +53,6 @@ const createInitialCards = () => {
 // Create function to create a card; should take a card object
 const createCard = (card) => {
   const newCard = cardTemplate.content.querySelector(".card").cloneNode(true);
-  console.dir(cardTemplate, newCard);
 
   newCard.querySelector(
     ".card__image"
@@ -56,22 +62,22 @@ const createCard = (card) => {
 };
 
 // Event Listener Functions
-const handleEditProfileClick = () => {
-  setpopupText();
+const openPopup = (popup) => {
+  setUserText();
   popup.classList.add("popup_opened");
 };
 
-const handleClosepopup = () => {
-  popup.classList.remove("popup_opened");
+const closePopup = (evt) => {
+  console.dir(evt.target);
+  evt.target.closest(".popup").classList.remove("popup_opened");
 };
 
-const handleSaveButtonClick = (event) => {
-  event.preventDefault();
-  updateUserProfile();
-  handleClosepopup();
+const saveButtonClick = (updateFunction) => {
+  updateFunction();
+  closePopup();
 };
 
-const setpopupText = () => {
+const setUserText = () => {
   userNameInput.value = userName.textContent;
   userTitleInput.value = userTitle.textContent;
 };
@@ -82,6 +88,20 @@ const updateUserProfile = () => {
 };
 
 createInitialCards();
-editButton.addEventListener("click", handleEditProfileClick);
-closeFormButton.addEventListener("click", handleClosepopup);
-popup.addEventListener("submit", handleSaveButtonClick);
+
+editButton.addEventListener("click", () => {
+  openPopup(editUserPopup);
+});
+
+addButton.addEventListener("click", () => {
+  openPopup(addImagePopup);
+});
+
+Array.from(closePopupButtons).forEach((button) =>
+  button.addEventListener("click", closePopup)
+);
+
+editUserPopup.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  saveButtonClick(evt.currentTarget, updateUserProfile);
+});
