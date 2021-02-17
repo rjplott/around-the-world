@@ -31,6 +31,9 @@ const createCard = (name, link) => {
     ".card__image"
   ).style.backgroundImage = `url("${link}")`;
   newCard.querySelector(".card__label").textContent = name;
+  newCard
+    .querySelector(".card__like-button")
+    .addEventListener("click", handleLikeButtonClick);
   gallery.append(newCard);
 };
 
@@ -89,6 +92,10 @@ const setUserText = () => {
 const updateUserProfile = () => {
   userName.textContent = userNameInput.value;
   userTitle.textContent = userTitleInput.value;
+};
+
+const handleLikeButtonClick = (evt) => {
+  evt.target.classList.toggle("card__like-button_liked");
 };
 
 createInitialCards();

@@ -13,7 +13,7 @@
   opacity: 0.5;
 }
 
-.card__like-button:focus {
+.card__like-button_liked {
   opacity: 1;
   background: url("../../../images/dark-like-button.svg") center no-repeat;
 }
