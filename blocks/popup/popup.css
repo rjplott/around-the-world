@@ -4,6 +4,9 @@
 @import url("./__form-title/popup__form-title.css");
 @import url("./__text-input/popup__text-input.css");
 @import url("./__submit/popup__submit.css");
+@import url("./__full-image/popup__full-image.css");
+@import url("./__image-caption/popup__image-caption.css");
+@import url("./__full-image-container/popup__full-image-container.css");
 
 .popup {
   background-color: rgba(0, 0, 0, 0.5);

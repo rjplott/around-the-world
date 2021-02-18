@@ -4,11 +4,13 @@ const editUserPopup = document.querySelector(".popup_purpose_edit-user");
 const cardTemplate = document.querySelector("#card-template");
 const gallery = document.querySelector(".gallery");
 const closePopupButtons = document.querySelectorAll(".popup__close-button");
+const imagePopup = document.querySelector(".popup_purpose_view-full-picture");
 
 const userName = userProfile.querySelector(".profile__user-name");
 const userTitle = userProfile.querySelector(".profile__user-title");
 const editButton = userProfile.querySelector(".profile__edit-button");
 const addButton = userProfile.querySelector(".profile__add-image-button");
+const imageContainer = imagePopup.querySelector(".popup__full-image-container");
 
 const userNameInput = editUserPopup.querySelector(
   ".popup__text-input_type_name"
@@ -26,10 +28,10 @@ const imageLinkInput = addImagePopup.querySelector(
 
 const createCard = (name, link) => {
   const newCard = cardTemplate.content.querySelector(".card").cloneNode(true);
+  const newCardImage = newCard.querySelector(".card__image");
 
-  newCard.querySelector(
-    ".card__image"
-  ).style.backgroundImage = `url("${link}")`;
+  newCardImage.style.backgroundImage = `url("${link}")`;
+  newCardImage.addEventListener("click", handleOpenImagePopup);
   newCard.querySelector(".card__label").textContent = name;
   newCard
     .querySelector(".card__like-button")
@@ -71,14 +73,20 @@ const createInitialCards = () => {
   initialCards.forEach((card) => createCard(card.name, card.link));
 };
 
-// Update Functions
 const openPopup = (popup) => {
   setUserText();
   popup.classList.add("popup_opened");
 };
 
 const closePopup = (evt) => {
-  evt.target.closest(".popup").classList.remove("popup_opened");
+  const currentPopup = evt.target.closest(".popup");
+
+  if (currentPopup.classList.contains("popup_purpose_view-full-picture")) {
+    currentPopup.querySelector(".popup__full-image").remove();
+    currentPopup.querySelector(".popup__image-caption").remove();
+  }
+
+  currentPopup.classList.remove("popup_opened");
 };
 
 const createNewCard = () => {
@@ -103,6 +111,22 @@ const handleLikeButtonClick = (evt) => {
 
 const handleDeleteCard = (evt) => {
   evt.target.parentElement.remove();
+};
+
+const handleOpenImagePopup = (evt) => {
+  const fullImage = document.createElement("img");
+  const fullImageCaption = document.createElement("figcaption");
+
+  fullImage.setAttribute("src", evt.target.style.backgroundImage.slice(5, -2));
+  fullImage.classList.add("popup__full-image");
+
+  fullImageCaption.textContent =
+    evt.target.nextElementSibling.firstElementChild.textContent;
+  fullImageCaption.classList.add("popup__image-caption");
+
+  imageContainer.append(fullImage, fullImageCaption);
+
+  openPopup(imagePopup);
 };
 
 createInitialCards();
