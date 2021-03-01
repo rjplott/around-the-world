@@ -5,7 +5,7 @@ const addImagePopup = document.querySelector(".popup_purpose_add-picture");
 const editUserPopup = document.querySelector(".popup_purpose_edit-user");
 const cardTemplate = document.querySelector("#card-template");
 const gallery = document.querySelector(".gallery");
-const closePopupButtons = document.querySelectorAll(".popup__close-button");
+const closePopupButtons = document.querySelectorAll(".popup__close");
 const imagePopup = document.querySelector(".popup_purpose_view-full-picture");
 
 const userName = userProfile.querySelector(".profile__user-name");
@@ -16,18 +16,16 @@ const imageContainer = imagePopup.querySelector(".popup__full-image-container");
 const fullImage = imageContainer.querySelector(".popup__full-image");
 const imageCaption = imageContainer.querySelector(".popup__image-caption");
 
-const userNameInput = editUserPopup.querySelector(
-  ".popup__text-input_type_name"
-);
+const userNameInput = editUserPopup.querySelector(".popup__input_type_name");
 const userTitleInput = editUserPopup.querySelector(
-  ".popup__text-input_type_user-title"
+  ".popup__input_type_user-title"
 );
 
 const imageTitleInput = addImagePopup.querySelector(
-  ".popup__text-input_type_image-title"
+  ".popup__input_type_image-title"
 );
 const imageLinkInput = addImagePopup.querySelector(
-  ".popup__text-input_type_image-link"
+  ".popup__input_type_image-link"
 );
 
 // Utility Functions
