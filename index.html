@@ -61,7 +61,7 @@
           type="button"
           class="popup__close-button"
         ></button>
-        <form class="popup__form" name="edit-user-form">
+        <form class="popup__form" name="edit-user-form" novalidate>
           <h2 class="popup__form-title">Edit profile</h2>
           <input
             required
@@ -69,6 +69,8 @@
             type="text"
             name="user-name"
             id="edit-user-name"
+            minlength="2"
+            maxlength="40"
             class="popup__text-input popup__text-input_type_name"
           />
           <input
@@ -92,10 +94,12 @@
           type="button"
           class="popup__close-button"
         ></button>
-        <form class="popup__form" name="edit-user-form">
+        <form class="popup__form" name="add-image-form" novalidate>
           <h2 class="popup__form-title">New Place</h2>
           <input
             required
+            minlength="1"
+            maxlength="30"
             placeholder="Title"
             type="text"
             name="add-image-title"
@@ -105,7 +109,7 @@
           <input
             required
             placeholder="Image URL"
-            type="text"
+            type="url"
             name="add-image-link"
             id="add-image-link"
             class="popup__text-input popup__text-input_type_image-link"
