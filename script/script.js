@@ -5,8 +5,8 @@ const addImagePopup = document.querySelector(".popup_purpose_add-picture");
 const editUserPopup = document.querySelector(".popup_purpose_edit-user");
 const cardTemplate = document.querySelector("#card-template");
 const gallery = document.querySelector(".gallery");
-const closePopupButtons = document.querySelectorAll(".popup__close-button");
 const imagePopup = document.querySelector(".popup_purpose_view-full-picture");
+const popups = document.querySelectorAll(".popup");
 
 const userName = userProfile.querySelector(".profile__user-name");
 const userTitle = userProfile.querySelector(".profile__user-title");
@@ -16,18 +16,16 @@ const imageContainer = imagePopup.querySelector(".popup__full-image-container");
 const fullImage = imageContainer.querySelector(".popup__full-image");
 const imageCaption = imageContainer.querySelector(".popup__image-caption");
 
-const userNameInput = editUserPopup.querySelector(
-  ".popup__text-input_type_name"
-);
+const userNameInput = editUserPopup.querySelector(".popup__input_type_name");
 const userTitleInput = editUserPopup.querySelector(
-  ".popup__text-input_type_user-title"
+  ".popup__input_type_user-title"
 );
 
 const imageTitleInput = addImagePopup.querySelector(
-  ".popup__text-input_type_image-title"
+  ".popup__input_type_image-title"
 );
 const imageLinkInput = addImagePopup.querySelector(
-  ".popup__text-input_type_image-link"
+  ".popup__input_type_image-link"
 );
 
 // Utility Functions
@@ -87,7 +85,10 @@ const openPopup = (popup) => {
 };
 
 const closePopup = (evt) => {
-  evt.target.closest(".popup").classList.remove("popup_opened");
+  const popup = evt.target.closest(".popup");
+
+  popup.classList.remove("popup_opened");
+  removeClosePopupListeners(popup);
 };
 
 const createNewCard = () => {
@@ -110,10 +111,12 @@ const updateUserProfile = () => {
 
 const handleOpenEditPopup = () => {
   setUserText();
+  setClosePopupListeners(editUserPopup);
   openPopup(editUserPopup);
 };
 
 const handleAddImagePopup = () => {
+  setClosePopupListeners(addImagePopup);
   openPopup(addImagePopup);
 };
 
@@ -142,6 +145,7 @@ const handleOpenImagePopup = (evt) => {
   imageCaption.textContent =
     evt.target.nextElementSibling.firstElementChild.textContent;
 
+  setClosePopupListeners(imagePopup);
   openPopup(imagePopup);
 };
 
@@ -151,10 +155,46 @@ const addCloseButtonListeners = () => {
   );
 };
 
+const verifyEscapeKeyPressed = (key) => key === "Escape";
+
+const handleFormKeyPress = (evt) => {
+  if (verifyEscapeKeyPressed(evt.key)) {
+    closePopup(evt);
+  }
+};
+
+const handlePopupClick = (evt) => {
+  if (evt.target === evt.currentTarget) {
+    closePopup(evt);
+  }
+};
+
+const handleCloseButtonClick = (evt) => {
+  closePopup(evt);
+};
+
+const setClosePopupListeners = (popup) => {
+  const closeButton = popup.querySelector(".popup__close");
+  const wrapper = popup.querySelector(".popup__wrapper");
+
+  closeButton.addEventListener("click", handleCloseButtonClick);
+  wrapper.addEventListener("keydown", handleFormKeyPress);
+  popup.addEventListener("click", handlePopupClick);
+};
+
+const removeClosePopupListeners = (popup) => {
+  const closeButton = popup.querySelector(".popup__close");
+  const wrapper = popup.querySelector(".popup__wrapper");
+
+  closeButton.removeEventListener("click", handleCloseButtonClick);
+  wrapper.removeEventListener("keydown", handleFormKeyPress);
+  popup.removeEventListener("click", handlePopupClick);
+};
+
 // Function Invocations
 
 createInitialCards();
-addCloseButtonListeners();
+setUserText();
 
 editButton.addEventListener("click", handleOpenEditPopup);
 addButton.addEventListener("click", handleAddImagePopup);

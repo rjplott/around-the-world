@@ -54,75 +54,83 @@
     <footer class="footer">
       <p class="footer__text">&copy; 2021 Around The U.S.</p>
     </footer>
-    <div class="popup popup_purpose_edit-user">
-      <div class="popup__wrapper">
+    <div tabindex="0" class="popup popup_purpose_edit-user">
+      <div tabindex="0" class="popup__wrapper">
         <button
           aria-label="Close Form"
           type="button"
-          class="popup__close-button"
+          class="popup__close"
         ></button>
-        <form class="popup__form" name="edit-user-form">
+        <form class="popup__form" name="edit-user-form" novalidate>
           <h2 class="popup__form-title">Edit profile</h2>
           <input
             required
             placeholder="User's Name"
             type="text"
-            name="user-name"
+            name="edit-user-name"
             id="edit-user-name"
-            class="popup__text-input popup__text-input_type_name"
+            minlength="2"
+            maxlength="40"
+            class="popup__input popup__input_type_name"
           />
+          <span class="popup__error edit-user-name-error"></span>
           <input
             required
             placeholder="User's Title"
             type="text"
-            name="user-title"
+            name="edit-user-title"
             id="edit-user-title"
-            class="popup__text-input popup__text-input_type_user-title"
+            class="popup__input popup__input_type_user-title"
           />
-          <button aria-label="Submit Form" type="submit" class="popup__submit">
+          <span class="popup__error edit-user-title-error"></span>
+          <button aria-label="Submit Form" type="submit" class="popup__button">
             Save
           </button>
         </form>
       </div>
     </div>
-    <div class="popup popup_purpose_add-picture">
-      <div class="popup__wrapper">
+    <div tabindex="0" class="popup popup_purpose_add-picture">
+      <div tabindex="0" class="popup__wrapper">
         <button
           aria-label="Close Form"
           type="button"
-          class="popup__close-button"
+          class="popup__close"
         ></button>
-        <form class="popup__form" name="edit-user-form">
+        <form class="popup__form" name="add-image-form" novalidate>
           <h2 class="popup__form-title">New Place</h2>
           <input
             required
+            minlength="1"
+            maxlength="30"
             placeholder="Title"
             type="text"
             name="add-image-title"
             id="add-image-title"
-            class="popup__text-input popup__text-input_type_image-title"
+            class="popup__input popup__input_type_image-title"
           />
+          <span class="popup__error add-image-title-error">testing</span>
           <input
             required
             placeholder="Image URL"
-            type="text"
+            type="url"
             name="add-image-link"
             id="add-image-link"
-            class="popup__text-input popup__text-input_type_image-link"
+            class="popup__input popup__input_type_image-link"
           />
-          <button aria-label="Submit Form" type="submit" class="popup__submit">
+          <span class="popup__error add-image-link-error">testing</span>
+          <button aria-label="Submit Form" type="submit" class="popup__button">
             Save
           </button>
         </form>
       </div>
     </div>
 
-    <div class="popup popup_purpose_view-full-picture">
-      <div class="popup__wrapper">
+    <div tabindex="0" class="popup popup_purpose_view-full-picture">
+      <div tabindex="0" class="popup__wrapper">
         <button
           aria-label="Close Form"
           type="button"
-          class="popup__close-button"
+          class="popup__close"
         ></button>
         <figure class="popup__full-image-container">
           <img
@@ -155,5 +163,6 @@
       </div>
     </template>
     <script src="script/script.js"></script>
+    <script src="script/validate.js"></script>
   </body>
 </html>
