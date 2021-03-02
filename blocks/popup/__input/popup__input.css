@@ -1,4 +1,4 @@
-.popup__text-input {
+.popup__input {
   margin: 0 auto;
   border: 0px;
   font-family: inherit;
@@ -11,25 +11,25 @@
   padding: 0;
 }
 
-.popup__text-input:first-of-type {
+.popup__input:first-of-type {
   margin-top: 54px;
+  margin-bottom: 30px;
 }
 
-.popup__text-input:last-of-type {
-  margin-top: 30px;
+.popup__input:last-of-type {
   margin-bottom: 48px;
 }
 
 @media screen and (max-width: 550px) {
-  .popup__text-input {
+  .popup__input {
     min-width: 238px;
   }
 
-  .popup__text-input:first-of-type {
+  .popup__input:first-of-type {
     margin-top: 75px;
   }
 
-  .popup__text-input:last-of-type {
+  .popup__input:last-of-type {
     margin-bottom: 45px;
   }
 }
