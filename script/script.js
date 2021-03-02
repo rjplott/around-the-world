@@ -82,13 +82,12 @@ const createInitialCards = () => {
 
 const openPopup = (popup) => {
   popup.classList.add("popup_opened");
+  document.addEventListener("keydown", closeByEscape);
 };
 
-const closePopup = (evt) => {
-  const popup = evt.target.closest(".popup");
-
+const closePopup = (popup) => {
   popup.classList.remove("popup_opened");
-  removeClosePopupListeners(popup);
+  document.removeEventListener("keydown", closeByEscape);
 };
 
 const createNewCard = () => {
@@ -111,25 +110,23 @@ const updateUserProfile = () => {
 
 const handleOpenEditPopup = () => {
   setUserText();
-  setClosePopupListeners(editUserPopup);
   openPopup(editUserPopup);
 };
 
 const handleAddImagePopup = () => {
-  setClosePopupListeners(addImagePopup);
   openPopup(addImagePopup);
 };
 
 const handleEditUserSubmit = (evt) => {
   evt.preventDefault();
   updateUserProfile();
-  closePopup(evt);
+  closePopup(evt.target.closes(".popup"));
 };
 
 const handleAddImageSubmit = (evt) => {
   evt.preventDefault();
   createNewCard();
-  closePopup(evt);
+  closePopup(evt.target.closes(".popup"));
 };
 
 const handleLikeButtonClick = (evt) => {
@@ -144,51 +141,34 @@ const handleOpenImagePopup = (evt) => {
   fullImage.setAttribute("src", evt.target.style.backgroundImage.slice(5, -2));
   imageCaption.textContent =
     evt.target.nextElementSibling.firstElementChild.textContent;
-
-  setClosePopupListeners(imagePopup);
   openPopup(imagePopup);
 };
 
 const addCloseButtonListeners = () => {
   Array.from(closePopupButtons).forEach((button) =>
-    button.addEventListener("click", (evt) => closePopup(evt))
+    button.addEventListener("click", (evt) =>
+      closePopup(evt.target.closest(".popup"))
+    )
   );
 };
 
 const verifyEscapeKeyPressed = (key) => key === "Escape";
 
-const handleFormKeyPress = (evt) => {
+const closeByEscape = (evt) => {
   if (verifyEscapeKeyPressed(evt.key)) {
-    closePopup(evt);
+    const openedPopup = document.querySelector(".popup_opened");
+    closePopup(openedPopup);
   }
 };
 
 const handlePopupClick = (evt) => {
   if (evt.target === evt.currentTarget) {
-    closePopup(evt);
+    closePopup(evt.target.closest(".popup"));
   }
 };
 
 const handleCloseButtonClick = (evt) => {
-  closePopup(evt);
-};
-
-const setClosePopupListeners = (popup) => {
-  const closeButton = popup.querySelector(".popup__close");
-  const wrapper = popup.querySelector(".popup__wrapper");
-
-  closeButton.addEventListener("click", handleCloseButtonClick);
-  wrapper.addEventListener("keydown", handleFormKeyPress);
-  popup.addEventListener("click", handlePopupClick);
-};
-
-const removeClosePopupListeners = (popup) => {
-  const closeButton = popup.querySelector(".popup__close");
-  const wrapper = popup.querySelector(".popup__wrapper");
-
-  closeButton.removeEventListener("click", handleCloseButtonClick);
-  wrapper.removeEventListener("keydown", handleFormKeyPress);
-  popup.removeEventListener("click", handlePopupClick);
+  closePopup(evt.target.closest(".popup"));
 };
 
 // Function Invocations
@@ -200,3 +180,15 @@ editButton.addEventListener("click", handleOpenEditPopup);
 addButton.addEventListener("click", handleAddImagePopup);
 editUserPopup.addEventListener("submit", handleEditUserSubmit);
 addImagePopup.addEventListener("submit", handleAddImageSubmit);
+
+popups.forEach((popup) => {
+  popup.addEventListener("click", (evt) => {
+    if (evt.target.classList.contains("popup_opened")) {
+      closePopup(popup);
+    }
+
+    if (evt.target.classList.contains("popup__close")) {
+      closePopup(popup);
+    }
+  });
+});
