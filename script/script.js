@@ -153,6 +153,7 @@ const addCloseButtonListeners = () => {
 
 createInitialCards();
 addCloseButtonListeners();
+setUserText();
 
 editButton.addEventListener("click", handleOpenEditPopup);
 addButton.addEventListener("click", handleAddImagePopup);
