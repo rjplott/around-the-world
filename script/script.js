@@ -120,13 +120,13 @@ const handleAddImagePopup = () => {
 const handleEditUserSubmit = (evt) => {
   evt.preventDefault();
   updateUserProfile();
-  closePopup(evt.target.closes(".popup"));
+  closePopup(evt.target.closest(".popup"));
 };
 
 const handleAddImageSubmit = (evt) => {
   evt.preventDefault();
   createNewCard();
-  closePopup(evt.target.closes(".popup"));
+  closePopup(evt.target.closest(".popup"));
 };
 
 const handleLikeButtonClick = (evt) => {
