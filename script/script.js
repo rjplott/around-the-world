@@ -1,20 +1,18 @@
+import Card from "./Card.js";
+
 // Variable declaration
 
+const cardTemplateSelector = "#card-template";
 const userProfile = document.querySelector(".profile");
 const addImagePopup = document.querySelector(".popup_purpose_add-picture");
 const editUserPopup = document.querySelector(".popup_purpose_edit-user");
-const cardTemplate = document.querySelector("#card-template");
 const gallery = document.querySelector(".gallery");
-const imagePopup = document.querySelector(".popup_purpose_view-full-picture");
 const popups = document.querySelectorAll(".popup");
 
 const userName = userProfile.querySelector(".profile__user-name");
 const userTitle = userProfile.querySelector(".profile__user-title");
 const editButton = userProfile.querySelector(".profile__edit-button");
 const addButton = userProfile.querySelector(".profile__add-image-button");
-const imageContainer = imagePopup.querySelector(".popup__full-image-container");
-const fullImage = imageContainer.querySelector(".popup__full-image");
-const imageCaption = imageContainer.querySelector(".popup__image-caption");
 
 const userNameInput = editUserPopup.querySelector(".popup__input_type_name");
 const userTitleInput = editUserPopup.querySelector(
@@ -50,34 +48,35 @@ const createCard = (name, link) => {
 const createInitialCards = () => {
   const initialCards = [
     {
-      name: "Yosemite Valley",
+      description: "Yosemite Valley",
       link: "https://code.s3.yandex.net/web-code/yosemite.jpg",
     },
     {
-      name: "Lake Louise",
+      description: "Lake Louise",
       link: "https://code.s3.yandex.net/web-code/lake-louise.jpg",
     },
     {
-      name: "Bald Mountains",
+      description: "Bald Mountains",
       link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg",
     },
     {
-      name: "Latemar",
+      description: "Latemar",
       link: "https://code.s3.yandex.net/web-code/latemar.jpg",
     },
     {
-      name: "Vanoise National Park",
+      description: "Vanoise National Park",
       link: "https://code.s3.yandex.net/web-code/vanoise.jpg",
     },
     {
-      name: "Lago di Braies",
+      description: "Lago di Braies",
       link: "https://code.s3.yandex.net/web-code/lago.jpg",
     },
   ];
 
-  initialCards.forEach((card) =>
-    gallery.append(createCard(card.name, card.link))
-  );
+  initialCards.forEach((card) => {
+    const cardElement = new Card(card, cardTemplateSelector);
+    gallery.append(cardElement.generateCard());
+  });
 };
 
 const openPopup = (popup) => {
@@ -91,7 +90,12 @@ const closePopup = (popup) => {
 };
 
 const createNewCard = () => {
-  gallery.prepend(createCard(imageTitleInput.value, imageLinkInput.value));
+  const cardData = {
+    description: imageTitleInput.value,
+    link: imageLinkInput.value,
+  };
+  const cardElement = new Card(cardData, cardTemplateSelector);
+  gallery.prepend(cardElement.generateCard());
   imageLinkInput.value = "";
   imageTitleInput.value = "";
 };
@@ -129,29 +133,6 @@ const handleAddImageSubmit = (evt) => {
   closePopup(evt.target.closest(".popup"));
 };
 
-const handleLikeButtonClick = (evt) => {
-  evt.target.classList.toggle("card__like-button_liked");
-};
-
-const handleDeleteCard = (evt) => {
-  evt.target.parentElement.remove();
-};
-
-const handleOpenImagePopup = (evt) => {
-  fullImage.setAttribute("src", evt.target.style.backgroundImage.slice(5, -2));
-  imageCaption.textContent =
-    evt.target.nextElementSibling.firstElementChild.textContent;
-  openPopup(imagePopup);
-};
-
-const addCloseButtonListeners = () => {
-  Array.from(closePopupButtons).forEach((button) =>
-    button.addEventListener("click", (evt) =>
-      closePopup(evt.target.closest(".popup"))
-    )
-  );
-};
-
 const verifyEscapeKeyPressed = (key) => key === "Escape";
 
 const closeByEscape = (evt) => {
@@ -159,16 +140,6 @@ const closeByEscape = (evt) => {
     const openedPopup = document.querySelector(".popup_opened");
     closePopup(openedPopup);
   }
-};
-
-const handlePopupClick = (evt) => {
-  if (evt.target === evt.currentTarget) {
-    closePopup(evt.target.closest(".popup"));
-  }
-};
-
-const handleCloseButtonClick = (evt) => {
-  closePopup(evt.target.closest(".popup"));
 };
 
 // Function Invocations
