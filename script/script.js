@@ -1,4 +1,5 @@
 import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
 
 // Variable declaration
 
@@ -26,24 +27,16 @@ const imageLinkInput = addImagePopup.querySelector(
   ".popup__input_type_image-link"
 );
 
-// Utility Functions
-
-const createCard = (name, link) => {
-  const newCard = cardTemplate.content.querySelector(".card").cloneNode(true);
-  const newCardImage = newCard.querySelector(".card__image");
-
-  newCardImage.style.backgroundImage = `url("${link}")`;
-  newCardImage.addEventListener("click", handleOpenImagePopup);
-  newCard.querySelector(".card__label").textContent = name;
-  newCard
-    .querySelector(".card__like-button")
-    .addEventListener("click", handleLikeButtonClick);
-  newCard
-    .querySelector(".card__delete-button")
-    .addEventListener("click", handleDeleteCard);
-
-  return newCard;
+const validatorSettings = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
 };
+
+// Utility Functions
 
 const createInitialCards = () => {
   const initialCards = [
@@ -142,6 +135,16 @@ const closeByEscape = (evt) => {
   }
 };
 
+const createFormValidators = () => {
+  const forms = Array.from(
+    document.querySelectorAll(validatorSettings.formSelector)
+  );
+  forms.forEach((form) => {
+    const validator = new FormValidator(validatorSettings, form);
+    validator.enableValidation();
+  });
+};
+
 // Function Invocations
 
 createInitialCards();
@@ -163,3 +166,5 @@ popups.forEach((popup) => {
     }
   });
 });
+
+createFormValidators();

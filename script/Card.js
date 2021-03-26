@@ -14,11 +14,11 @@ export default class Card {
     return key === "Escape";
   }
 
-  _closeByEscape = (evt) => {
+  _handleCloseByEscape = (evt) => {
     if (this._verifyEscapeKeyPressed(evt.key)) {
       const openedPopup = document.querySelector(".popup_opened");
       openedPopup.classList.remove("popup_opened");
-      document.removeEventListener("keydown", this._closeByEscape);
+      document.removeEventListener("keydown", this._handleCloseByEscape);
     }
   };
 
@@ -34,7 +34,7 @@ export default class Card {
     imageCaption.textContent =
       evt.target.nextElementSibling.firstElementChild.textContent;
     imagePopup.classList.add("popup_opened");
-    document.addEventListener("keydown", this._closeByEscape);
+    document.addEventListener("keydown", this._handleCloseByEscape);
   }
 
   _handleDeleteCard(evt) {
