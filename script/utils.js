@@ -17,4 +17,9 @@ const closeByEscape = (evt) => {
   }
 };
 
-export { openPopup, closePopup };
+const deactivateSaveButton = (submitButton, inactiveButtonClass) => {
+  submitButton.classList.add(inactiveButtonClass);
+  submitButton.setAttribute("disabled", "");
+};
+
+export { openPopup, closePopup, deactivateSaveButton };
