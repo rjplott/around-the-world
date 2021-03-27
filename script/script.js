@@ -1,7 +1,7 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 import { cards as initialCards } from "./cards.js";
-import { openPopup, closePopup, deactivateSaveButton } from "./utils.js";
+import { openPopup, closePopup } from "./utils.js";
 
 // Variable declaration
 
