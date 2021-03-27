@@ -1,12 +1,26 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
+import { cards as initialCards } from "./cards.js";
+import { openPopup, closePopup } from "./utils.js";
 
 // Variable declaration
+
+const validatorSettings = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
 
 const cardTemplateSelector = "#card-template";
 const userProfile = document.querySelector(".profile");
 const addImagePopup = document.querySelector(".popup_purpose_add-picture");
 const editUserPopup = document.querySelector(".popup_purpose_edit-user");
+const addImageSubmit = addImagePopup.querySelector(
+  validatorSettings.submitButtonSelector
+);
 const gallery = document.querySelector(".gallery");
 const popups = document.querySelectorAll(".popup");
 
@@ -27,59 +41,13 @@ const imageLinkInput = addImagePopup.querySelector(
   ".popup__input_type_image-link"
 );
 
-const validatorSettings = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible",
-};
-
 // Utility Functions
 
 const createInitialCards = () => {
-  const initialCards = [
-    {
-      description: "Yosemite Valley",
-      link: "https://code.s3.yandex.net/web-code/yosemite.jpg",
-    },
-    {
-      description: "Lake Louise",
-      link: "https://code.s3.yandex.net/web-code/lake-louise.jpg",
-    },
-    {
-      description: "Bald Mountains",
-      link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg",
-    },
-    {
-      description: "Latemar",
-      link: "https://code.s3.yandex.net/web-code/latemar.jpg",
-    },
-    {
-      description: "Vanoise National Park",
-      link: "https://code.s3.yandex.net/web-code/vanoise.jpg",
-    },
-    {
-      description: "Lago di Braies",
-      link: "https://code.s3.yandex.net/web-code/lago.jpg",
-    },
-  ];
-
   initialCards.forEach((card) => {
     const cardElement = new Card(card, cardTemplateSelector);
     gallery.append(cardElement.generateCard());
   });
-};
-
-const openPopup = (popup) => {
-  popup.classList.add("popup_opened");
-  document.addEventListener("keydown", closeByEscape);
-};
-
-const closePopup = (popup) => {
-  popup.classList.remove("popup_opened");
-  document.removeEventListener("keydown", closeByEscape);
 };
 
 const createNewCard = () => {
@@ -91,6 +59,8 @@ const createNewCard = () => {
   gallery.prepend(cardElement.generateCard());
   imageLinkInput.value = "";
   imageTitleInput.value = "";
+  addImageSubmit.classList.add(validatorSettings.inactiveButtonClass);
+  addImageSubmit.setAttribute("disabled", "");
 };
 
 const setUserText = () => {
@@ -124,15 +94,6 @@ const handleAddImageSubmit = (evt) => {
   evt.preventDefault();
   createNewCard();
   closePopup(evt.target.closest(".popup"));
-};
-
-const verifyEscapeKeyPressed = (key) => key === "Escape";
-
-const closeByEscape = (evt) => {
-  if (verifyEscapeKeyPressed(evt.key)) {
-    const openedPopup = document.querySelector(".popup_opened");
-    closePopup(openedPopup);
-  }
 };
 
 const createFormValidators = () => {

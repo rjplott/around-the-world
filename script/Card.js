@@ -1,3 +1,5 @@
+import { openPopup } from "./utils.js";
+
 const imagePopup = document.querySelector(".popup_purpose_view-full-picture");
 const imageContainer = imagePopup.querySelector(".popup__full-image-container");
 const fullImage = imageContainer.querySelector(".popup__full-image");
@@ -10,18 +12,6 @@ export default class Card {
     this._templateSelector = templateSelector;
   }
 
-  _verifyEscapeKeyPressed(key) {
-    return key === "Escape";
-  }
-
-  _handleCloseByEscape = (evt) => {
-    if (this._verifyEscapeKeyPressed(evt.key)) {
-      const openedPopup = document.querySelector(".popup_opened");
-      openedPopup.classList.remove("popup_opened");
-      document.removeEventListener("keydown", this._handleCloseByEscape);
-    }
-  };
-
   _handleClickLikeButton(evt) {
     evt.target.classList.toggle("card__like-button_liked");
   }
@@ -33,8 +23,7 @@ export default class Card {
     );
     imageCaption.textContent =
       evt.target.nextElementSibling.firstElementChild.textContent;
-    imagePopup.classList.add("popup_opened");
-    document.addEventListener("keydown", this._handleCloseByEscape);
+    openPopup(imagePopup);
   }
 
   _handleDeleteCard(evt) {
