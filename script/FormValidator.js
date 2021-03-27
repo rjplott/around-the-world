@@ -1,5 +1,3 @@
-import { deactivateSaveButton } from "./utils.js";
-
 export default class FormValidator {
   constructor(settings, formElement) {
     this._formElement = formElement;
@@ -19,7 +17,7 @@ export default class FormValidator {
 
   _toggleButtonState() {
     if (this._hasInvalidInput()) {
-      deactivateSaveButton(this._submitButton, this._inactiveButtonClass);
+      this.deactivateSaveButton(this._submitButton, this._inactiveButtonClass);
     } else {
       this._submitButton.classList.remove(this._inactiveButtonClass);
       this._submitButton.removeAttribute("disabled");
@@ -64,6 +62,11 @@ export default class FormValidator {
         this._toggleButtonState();
       });
     });
+  }
+
+  deactivateSaveButton(submitButton, inactiveButtonClass) {
+    submitButton.classList.add(inactiveButtonClass);
+    submitButton.setAttribute("disabled", "");
   }
 
   enableValidation() {

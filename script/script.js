@@ -56,10 +56,14 @@ const createNewCard = () => {
     link: imageLinkInput.value,
   };
   const cardElement = new Card(cardData, cardTemplateSelector);
+
   gallery.prepend(cardElement.generateCard());
   imageLinkInput.value = "";
   imageTitleInput.value = "";
-  deactivateSaveButton(addImageSubmit, validatorSettings.inactiveButtonClass);
+  validators["add-image-form"].deactivateSaveButton(
+    addImageSubmit,
+    validatorSettings.inactiveButtonClass
+  );
 };
 
 const setUserText = () => {
@@ -99,16 +103,20 @@ const createFormValidators = () => {
   const forms = Array.from(
     document.querySelectorAll(validatorSettings.formSelector)
   );
-  forms.forEach((form) => {
+  return forms.reduce((validators, form) => {
     const validator = new FormValidator(validatorSettings, form);
     validator.enableValidation();
-  });
+    validators[form.getAttribute("name")] = validator;
+    return validators;
+  }, {});
 };
 
 // Function Invocations
 
 createInitialCards();
 setUserText();
+
+const validators = createFormValidators();
 
 editButton.addEventListener("click", handleOpenEditPopup);
 addButton.addEventListener("click", handleAddImagePopup);
@@ -126,5 +134,3 @@ popups.forEach((popup) => {
     }
   });
 });
-
-createFormValidators();
