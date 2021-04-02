@@ -1,9 +1,0 @@
-.card__image {
-  max-width: 100%;
-  border-radius: 10px 10px 0px 0px;
-  background-size: cover;
-  background-position: center;
-  height: 0px;
-  padding-top: 100%;
-  cursor: pointer;
-}
