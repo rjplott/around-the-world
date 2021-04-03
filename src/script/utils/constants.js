@@ -16,9 +16,7 @@ const cardTemplateSelector = "#card-template";
 const userProfile = document.querySelector(".profile");
 const addImagePopup = document.querySelector(".popup_purpose_add-picture");
 const editUserPopup = document.querySelector(".popup_purpose_edit-user");
-const addImageSubmit = addImagePopup.querySelector(
-  validatorSettings.submitButtonSelector
-);
+
 const cardSectionSelector = ".gallery";
 const popups = document.querySelectorAll(".popup");
 
@@ -45,7 +43,6 @@ export {
   userProfile,
   addImagePopup,
   editUserPopup,
-  addImageSubmit,
   cardSectionSelector,
   popups,
   userName,

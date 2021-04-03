@@ -10,8 +10,9 @@ export default class Card {
     evt.target.classList.toggle("card__like-button_liked");
   }
 
-  _handleDeleteCard(evt) {
-    evt.target.parentElement.remove();
+  _handleDeleteCard() {
+    this._element.remove();
+    this._element = null;
   }
 
   _addEventListeners() {

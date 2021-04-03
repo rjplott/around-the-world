@@ -8,7 +8,6 @@ import { cards as initialCards } from "../script/utils/cards.js";
 import {
   validatorSettings,
   cardTemplateSelector,
-  addImageSubmit,
   cardSectionSelector,
   userName,
   userTitle,
@@ -35,21 +34,12 @@ const resetImageInput = () => {
   imageTitleInput.value = "";
 };
 
-const createNewCard = () => {
-  const cardData = {
-    description: imageTitleInput.value,
-    link: imageLinkInput.value,
-  };
-
+const createNewCard = (cardData) => {
   const cardElement = new Card(cardData, cardTemplateSelector, handleCardClick);
 
   cardSection.addItem(cardElement.generateCard());
-  imageLinkInput.value = "";
-  imageTitleInput.value = "";
-  validators["add-image-form"].deactivateSaveButton(
-    addImageSubmit,
-    validatorSettings.inactiveButtonClass
-  );
+  resetImageInput();
+  validators["add-image-form"].deactivateSaveButton();
 };
 
 const createFormValidators = () => {
@@ -91,18 +81,21 @@ const userInformation = new UserInfo({
 
 const imagePopup = new PopupWithImage(".popup_purpose_view-full-picture");
 
-const addCardPopup = new PopupWithForm(".popup_purpose_add-picture", () => {
-  createNewCard();
-  addCardPopup.close(resetImageInput);
-});
+const addCardPopup = new PopupWithForm(
+  ".popup_purpose_add-picture",
+  ({ "add-image-link": link, "add-image-title": description }) => {
+    createNewCard({ link, description });
+    addCardPopup.close(resetImageInput);
+  }
+);
 
-const userPopup = new PopupWithForm(".popup_purpose_edit-user", () => {
-  userInformation.setUserInfo({
-    name: userNameInput.value,
-    job: userTitleInput.value,
-  });
-  userPopup.close(resetUserInput);
-});
+const userPopup = new PopupWithForm(
+  ".popup_purpose_edit-user",
+  ({ "edit-user-name": name, "edit-user-title": job }) => {
+    userInformation.setUserInfo({ name, job });
+    userPopup.close(resetUserInput);
+  }
+);
 
 cardSection.renderItems();
 resetUserInput();
