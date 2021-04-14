@@ -37,6 +37,14 @@ const imageLinkInput = addImagePopup.querySelector(
   ".popup__input_type_image-link"
 );
 
+const apiOptions = {
+  baseURL: "https://around.nomoreparties.co/v1/group-7",
+  headers: {
+    authorization: "5675ec8d-ad03-40e2-a22f-339c9a5d9fa2",
+    "Content-Type": "application/json",
+  },
+};
+
 export {
   validatorSettings,
   cardTemplateSelector,
@@ -57,4 +65,5 @@ export {
   imageContainer,
   fullImage,
   imageCaption,
+  apiOptions,
 };

@@ -1,22 +1,22 @@
 import { userName, userTitle } from "../utils/constants.js";
 
 export default class UserInfo {
-  constructor({ name, job }) {
+  constructor({ name, about }) {
     this._name = name;
-    this._job = job;
+    this._about = about;
   }
 
   getUserInfo() {
     return {
       name: this._name,
-      job: this._job,
+      about: this._about,
     };
   }
 
-  setUserInfo({ name, job }) {
+  setUserInfo({ name, about }) {
     this._name = name;
-    this._job = job;
+    this._about = about;
     userName.textContent = this._name;
-    userTitle.textContent = this._job;
+    userTitle.textContent = this._about;
   }
 }

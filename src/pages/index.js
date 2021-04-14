@@ -4,6 +4,7 @@ import Section from "../script/modules/Section.js";
 import PopupWithImage from "../script/modules/PopupWithImage.js";
 import PopupWithForm from "../script/modules/PopupWithForm.js";
 import UserInfo from "../script/modules/UserInfo.js";
+import Api from "../script/modules/Api.js";
 import { cards as initialCards } from "../script/utils/cards.js";
 import {
   validatorSettings,
@@ -17,6 +18,7 @@ import {
   userTitleInput,
   imageTitleInput,
   imageLinkInput,
+  apiOptions,
 } from "../script/utils/constants.js";
 import "./index.css";
 
@@ -26,20 +28,12 @@ const resetUserInput = () => {
   const user = userInformation.getUserInfo();
 
   userNameInput.value = user.name;
-  userTitleInput.value = user.job;
+  userTitleInput.value = user.about;
 };
 
 const resetImageInput = () => {
   imageLinkInput.value = "";
   imageTitleInput.value = "";
-};
-
-const createNewCard = (cardData) => {
-  const cardElement = new Card(cardData, cardTemplateSelector, handleCardClick);
-
-  cardSection.addItem(cardElement.generateCard());
-  resetImageInput();
-  validators["add-image-form"].deactivateSaveButton();
 };
 
 const createFormValidators = () => {
@@ -63,46 +57,77 @@ const handleCardClick = (evt) => {
 
 // Object instantiation
 
-const cardSection = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const cardElement = new Card(item, cardTemplateSelector, handleCardClick);
-      cardSection.addItem(cardElement.generateCard());
-    },
-  },
-  cardSectionSelector
-);
+const api = new Api(apiOptions);
 
 const userInformation = new UserInfo({
   name: userName.textContent,
-  job: userTitle.textContent,
+  about: userTitle.textContent,
 });
 
 const imagePopup = new PopupWithImage(".popup_purpose_view-full-picture");
 
-const addCardPopup = new PopupWithForm(
-  ".popup_purpose_add-picture",
-  ({ "add-image-link": link, "add-image-title": description }) => {
-    createNewCard({ link, description });
-    addCardPopup.close(resetImageInput);
-  }
-);
-
 const userPopup = new PopupWithForm(
   ".popup_purpose_edit-user",
-  ({ "edit-user-name": name, "edit-user-title": job }) => {
-    userInformation.setUserInfo({ name, job });
-    userPopup.close(resetUserInput);
+  ({ "edit-user-name": name, "edit-user-title": about }) => {
+    api.updateUserInformation({ name, about }).then((data) => {
+      userInformation.setUserInfo(data);
+      userPopup.close(resetUserInput);
+    });
   }
 );
 
-cardSection.renderItems();
 resetUserInput();
 
 const validators = createFormValidators();
 
-addCardPopup.setEventListeners();
+api.getInitialCards().then((data) => {
+  const cardSection = new Section(
+    {
+      items: data,
+      renderer: (item) => {
+        const cardElement = new Card(
+          item,
+          cardTemplateSelector,
+          handleCardClick
+        );
+        cardSection.addItem(cardElement.generateCard());
+      },
+    },
+    cardSectionSelector
+  );
+
+  cardSection.renderItems();
+
+  const createNewCard = (cardData) => {
+    const cardElement = new Card(
+      cardData,
+      cardTemplateSelector,
+      handleCardClick
+    );
+
+    cardSection.addItem(cardElement.generateCard());
+    resetImageInput();
+    validators["add-image-form"].deactivateSaveButton();
+  };
+
+  const addCardPopup = new PopupWithForm(
+    ".popup_purpose_add-picture",
+    ({ "add-image-link": link, "add-image-title": name }) => {
+      api.addCard({ name, link }).then((data) => {
+        console.log(data);
+        createNewCard(data);
+        addCardPopup.close(resetImageInput);
+      });
+    }
+  );
+
+  addCardPopup.setEventListeners();
+
+  addButton.addEventListener("click", () => {
+    addCardPopup.open();
+  });
+});
+
 userPopup.setEventListeners();
 imagePopup.setEventListeners();
 
@@ -111,6 +136,4 @@ editButton.addEventListener("click", () => {
   userPopup.open();
 });
 
-addButton.addEventListener("click", () => {
-  addCardPopup.open();
-});
+api.getUserInformation().then((data) => userInformation.setUserInfo(data));
