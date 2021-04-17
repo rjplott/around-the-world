@@ -1,7 +1,7 @@
 .popup__button {
   min-width: 358px;
   min-height: 50px;
-  margin: 0 auto 36px;
+  margin: 36px auto;
   background-color: #000;
   color: #fff;
   font-size: 18px;

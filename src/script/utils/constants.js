@@ -22,8 +22,13 @@ const popups = document.querySelectorAll(".popup");
 
 const userName = userProfile.querySelector(".profile__user-name");
 const userTitle = userProfile.querySelector(".profile__user-title");
+const profilePicture = userProfile.querySelector(".profile__user-image");
 const editButton = userProfile.querySelector(".profile__edit-button");
 const addButton = userProfile.querySelector(".profile__add-image-button");
+const editProfileElement = userProfile.querySelector(".profile__image-wrapper");
+const editImageInput = document.querySelector(
+  ".popup__input_purpose_edit_picture"
+);
 
 const userNameInput = editUserPopup.querySelector(".popup__input_type_name");
 const userTitleInput = editUserPopup.querySelector(
@@ -66,4 +71,7 @@ export {
   fullImage,
   imageCaption,
   apiOptions,
+  editProfileElement,
+  profilePicture,
+  editImageInput,
 };

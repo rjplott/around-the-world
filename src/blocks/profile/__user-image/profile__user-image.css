@@ -1,7 +1,8 @@
 .profile__user-image {
   border-radius: 50%;
   max-width: 120px;
-  margin: 40px 0 50px;
+  min-height: 120px;
+  object-fit: cover;
 }
 
 @media screen and (max-width: 920px) {

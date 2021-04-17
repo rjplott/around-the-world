@@ -5,7 +5,6 @@ import PopupWithImage from "../script/modules/PopupWithImage.js";
 import PopupWithForm from "../script/modules/PopupWithForm.js";
 import UserInfo from "../script/modules/UserInfo.js";
 import Api from "../script/modules/Api.js";
-import { cards as initialCards } from "../script/utils/cards.js";
 import {
   validatorSettings,
   cardTemplateSelector,
@@ -19,6 +18,9 @@ import {
   imageTitleInput,
   imageLinkInput,
   apiOptions,
+  editProfileElement,
+  profilePicture,
+  editImageInput,
 } from "../script/utils/constants.js";
 import "./index.css";
 
@@ -34,6 +36,11 @@ const resetUserInput = () => {
 const resetImageInput = () => {
   imageLinkInput.value = "";
   imageTitleInput.value = "";
+};
+
+const resetEditImageInput = () => {
+  editImageInput.value = "";
+  validators["edit-profile-picture-form"].deactivateSaveButton();
 };
 
 const createFormValidators = () => {
@@ -62,6 +69,11 @@ const api = new Api(apiOptions);
 const userInformation = new UserInfo({
   name: userName.textContent,
   about: userTitle.textContent,
+  profilePicture: profilePicture.getAttribute("src"),
+});
+
+api.getUserInformation().then((data) => {
+  userInformation.setUserInfo(data);
 });
 
 const imagePopup = new PopupWithImage(".popup_purpose_view-full-picture");
@@ -76,11 +88,48 @@ const userPopup = new PopupWithForm(
   }
 );
 
-resetUserInput();
+const removeCardPopup = new PopupWithForm(
+  ".popup_purpose_remove-card",
+  (card) => {
+    api.deleteCard(card.getId()).then(() => {
+      card.deleteCard();
+      removeCardPopup.close();
+    });
+  }
+);
+
+const editProfilePicturePopup = new PopupWithForm(
+  ".popup_purpose_edit-profile-picture",
+  ({ "edit-picture-link": avatar }) => {
+    api.updateUserAvartar({ avatar }).then((data) => {
+      userInformation.setUserInfo(data);
+      editProfilePicturePopup.close(resetEditImageInput);
+    });
+  }
+);
 
 const validators = createFormValidators();
 
 api.getInitialCards().then((data) => {
+  const user = userInformation.getUserInfo();
+
+  const handleDeleteCard = (card) => {
+    removeCardPopup.setValue(card);
+    removeCardPopup.open();
+  };
+
+  const handleClickLikeButton = (card) => {
+    if (card.getLiked()) {
+      api.removeLike(card.getId()).then((data) => {
+        card.updateCard(data, user);
+      });
+    } else {
+      api.addLike(card.getId(), userInformation.getUserData()).then((data) => {
+        card.updateCard(data, user);
+      });
+    }
+  };
+
   const cardSection = new Section(
     {
       items: data,
@@ -88,9 +137,11 @@ api.getInitialCards().then((data) => {
         const cardElement = new Card(
           item,
           cardTemplateSelector,
-          handleCardClick
+          handleCardClick,
+          handleDeleteCard,
+          handleClickLikeButton
         );
-        cardSection.addItem(cardElement.generateCard());
+        cardSection.addItem(cardElement.generateCard(user.id));
       },
     },
     cardSectionSelector
@@ -102,10 +153,12 @@ api.getInitialCards().then((data) => {
     const cardElement = new Card(
       cardData,
       cardTemplateSelector,
-      handleCardClick
+      handleCardClick,
+      handleDeleteCard,
+      handleClickLikeButton
     );
 
-    cardSection.addItem(cardElement.generateCard());
+    cardSection.addItem(cardElement.generateCard(user.id));
     resetImageInput();
     validators["add-image-form"].deactivateSaveButton();
   };
@@ -114,7 +167,6 @@ api.getInitialCards().then((data) => {
     ".popup_purpose_add-picture",
     ({ "add-image-link": link, "add-image-title": name }) => {
       api.addCard({ name, link }).then((data) => {
-        console.log(data);
         createNewCard(data);
         addCardPopup.close(resetImageInput);
       });
@@ -122,6 +174,7 @@ api.getInitialCards().then((data) => {
   );
 
   addCardPopup.setEventListeners();
+  removeCardPopup.setEventListeners();
 
   addButton.addEventListener("click", () => {
     addCardPopup.open();
@@ -130,10 +183,13 @@ api.getInitialCards().then((data) => {
 
 userPopup.setEventListeners();
 imagePopup.setEventListeners();
+editProfilePicturePopup.setEventListeners();
 
 editButton.addEventListener("click", () => {
   resetUserInput();
   userPopup.open();
 });
 
-api.getUserInformation().then((data) => userInformation.setUserInfo(data));
+editProfileElement.addEventListener("click", () => {
+  editProfilePicturePopup.open();
+});
