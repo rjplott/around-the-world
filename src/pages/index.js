@@ -21,12 +21,14 @@ import {
   editProfileElement,
   profilePicture,
   editImageInput,
+  fullImage,
+  imageCaption,
 } from "../script/utils/constants.js";
 import "./index.css";
 
 // Helper Functions
 
-const resetUserInput = () => {
+const updateProfileInputs = () => {
   const user = userInformation.getUserInfo();
 
   userNameInput.value = user.name;
@@ -43,6 +45,8 @@ const resetEditImageInput = () => {
   validators["edit-profile-picture-form"].deactivateSaveButton();
 };
 
+const verifyEscapeKeyPressed = (key) => key === "Escape";
+
 const createFormValidators = () => {
   const forms = Array.from(
     document.querySelectorAll(validatorSettings.formSelector)
@@ -55,141 +59,173 @@ const createFormValidators = () => {
   }, {});
 };
 
-const handleCardClick = (evt) => {
+const handleCardClick = (name, link) => {
   imagePopup.open({
-    url: evt.target.style.backgroundImage.slice(5, -2),
-    text: evt.target.nextElementSibling.textContent,
+    url: link,
+    text: name,
   });
 };
+
+const handleApiError = (error) => console.log(error);
 
 // Object instantiation
 
 const api = new Api(apiOptions);
 
-const userInformation = new UserInfo({
-  name: userName.textContent,
-  about: userTitle.textContent,
-  profilePicture: profilePicture.getAttribute("src"),
-});
+const userInformation = new UserInfo(userName, userTitle, profilePicture);
 
-api.getUserInformation().then((data) => {
-  userInformation.setUserInfo(data);
-});
+api
+  .getUserInformation()
+  .then((data) => {
+    userInformation.setUserInfo(data);
+    return userInformation;
+  })
+  .then((userInformation) => {
+    api
+      .getInitialCards()
+      .then((data) => {
+        const user = userInformation.getUserInfo();
 
-const imagePopup = new PopupWithImage(".popup_purpose_view-full-picture");
+        const handleDeleteCard = (card) => {
+          removeCardPopup.setValue(card);
+          removeCardPopup.open();
+        };
+
+        const handleClickLikeButton = (card) => {
+          if (card.getLiked()) {
+            api
+              .removeLike(card.getId())
+              .then((data) => {
+                card.updateCard(data, user);
+              })
+              .catch(handleApiError);
+          } else {
+            api
+              .addLike(card.getId(), userInformation.getUserInfo())
+              .then((data) => {
+                card.updateCard(data, user);
+              })
+              .catch(handleApiError);
+          }
+        };
+
+        const createNewCard = (cardData) => {
+          const cardElement = new Card(
+            cardData,
+            cardTemplateSelector,
+            handleCardClick,
+            handleDeleteCard,
+            handleClickLikeButton
+          );
+
+          return cardElement;
+        };
+
+        const cardSection = new Section(
+          {
+            items: data,
+            renderer: (item) => {
+              const cardElement = createNewCard(item);
+              cardSection.addItem(cardElement.generateCard(user.id));
+            },
+          },
+          cardSectionSelector
+        );
+
+        cardSection.renderItems();
+
+        const addCardPopup = new PopupWithForm(
+          ".popup_purpose_add-picture",
+          verifyEscapeKeyPressed,
+          ({ "add-image-link": link, "add-image-title": name }) => {
+            api
+              .addCard({ name, link })
+              .then((data) => {
+                const cardElement = createNewCard(data);
+
+                cardSection.addItem(cardElement.generateCard(user.id));
+                resetImageInput();
+                validators["add-image-form"].deactivateSaveButton();
+                addCardPopup.close(resetImageInput);
+              })
+              .catch(handleApiError);
+          }
+        );
+
+        addCardPopup.setEventListeners();
+        removeCardPopup.setEventListeners();
+
+        addButton.addEventListener("click", () => {
+          validators["add-image-form"].resetValidation();
+          addCardPopup.open();
+        });
+      })
+      .catch(handleApiError);
+  })
+  .catch(handleApiError);
+
+const imagePopup = new PopupWithImage(
+  ".popup_purpose_view-full-picture",
+  verifyEscapeKeyPressed,
+  fullImage,
+  imageCaption
+);
 
 const userPopup = new PopupWithForm(
   ".popup_purpose_edit-user",
+  verifyEscapeKeyPressed,
   ({ "edit-user-name": name, "edit-user-title": about }) => {
-    api.updateUserInformation({ name, about }).then((data) => {
-      userInformation.setUserInfo(data);
-      userPopup.close(resetUserInput);
-    });
+    api
+      .updateUserInformation({ name, about })
+      .then((data) => {
+        userInformation.setUserInfo(data);
+        userPopup.close();
+      })
+      .catch(handleApiError);
   }
 );
 
 const removeCardPopup = new PopupWithForm(
   ".popup_purpose_remove-card",
+  verifyEscapeKeyPressed,
   (card) => {
-    api.deleteCard(card.getId()).then(() => {
-      card.deleteCard();
-      removeCardPopup.close();
-    });
+    api
+      .deleteCard(card.getId())
+      .then(() => {
+        card.deleteCard();
+        removeCardPopup.close();
+      })
+      .catch(handleApiError);
   }
 );
 
 const editProfilePicturePopup = new PopupWithForm(
   ".popup_purpose_edit-profile-picture",
+  verifyEscapeKeyPressed,
   ({ "edit-picture-link": avatar }) => {
-    api.updateUserAvartar({ avatar }).then((data) => {
-      userInformation.setUserInfo(data);
-      editProfilePicturePopup.close(resetEditImageInput);
-    });
+    api
+      .updateUserAvartar({ avatar })
+      .then((data) => {
+        userInformation.setUserInfo(data);
+        editProfilePicturePopup.close(resetEditImageInput);
+      })
+      .catch(handleApiError);
   }
 );
 
 const validators = createFormValidators();
-
-api.getInitialCards().then((data) => {
-  const user = userInformation.getUserInfo();
-
-  const handleDeleteCard = (card) => {
-    removeCardPopup.setValue(card);
-    removeCardPopup.open();
-  };
-
-  const handleClickLikeButton = (card) => {
-    if (card.getLiked()) {
-      api.removeLike(card.getId()).then((data) => {
-        card.updateCard(data, user);
-      });
-    } else {
-      api.addLike(card.getId(), userInformation.getUserData()).then((data) => {
-        card.updateCard(data, user);
-      });
-    }
-  };
-
-  const cardSection = new Section(
-    {
-      items: data,
-      renderer: (item) => {
-        const cardElement = new Card(
-          item,
-          cardTemplateSelector,
-          handleCardClick,
-          handleDeleteCard,
-          handleClickLikeButton
-        );
-        cardSection.addItem(cardElement.generateCard(user.id));
-      },
-    },
-    cardSectionSelector
-  );
-
-  cardSection.renderItems();
-
-  const createNewCard = (cardData) => {
-    const cardElement = new Card(
-      cardData,
-      cardTemplateSelector,
-      handleCardClick,
-      handleDeleteCard,
-      handleClickLikeButton
-    );
-
-    cardSection.addItem(cardElement.generateCard(user.id));
-    resetImageInput();
-    validators["add-image-form"].deactivateSaveButton();
-  };
-
-  const addCardPopup = new PopupWithForm(
-    ".popup_purpose_add-picture",
-    ({ "add-image-link": link, "add-image-title": name }) => {
-      api.addCard({ name, link }).then((data) => {
-        createNewCard(data);
-        addCardPopup.close(resetImageInput);
-      });
-    }
-  );
-
-  addCardPopup.setEventListeners();
-  removeCardPopup.setEventListeners();
-
-  addButton.addEventListener("click", () => {
-    addCardPopup.open();
-  });
-});
 
 userPopup.setEventListeners();
 imagePopup.setEventListeners();
 editProfilePicturePopup.setEventListeners();
 
 editButton.addEventListener("click", () => {
-  resetUserInput();
+  updateProfileInputs();
+  validators["edit-user-form"].resetValidation();
   userPopup.open();
 });
 
 editProfileElement.addEventListener("click", () => {
+  validators["edit-profile-picture-form"].resetValidation();
   editProfilePicturePopup.open();
 });

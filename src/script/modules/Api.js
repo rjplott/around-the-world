@@ -4,24 +4,22 @@ export default class Api {
     this._headers = options.headers;
   }
 
+  _checkResponse(res) {
+    return res.ok
+      ? res.json()
+      : Promise.reject(`Error: ${res.status} - ${res.statusText}`);
+  }
+
   getUserInformation() {
-    return fetch(`${this._baseURL}/users/me`, { headers: this._headers })
-      .then((res) =>
-        res.ok
-          ? res.json()
-          : Promise.reject(`Error: ${res.status} - ${res.statusText}`)
-      )
-      .catch((err) => console.log(err));
+    return fetch(`${this._baseURL}/users/me`, {
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
   getInitialCards() {
-    return fetch(`${this._baseURL}/cards`, { headers: this._headers })
-      .then((res) =>
-        res.ok
-          ? res.json()
-          : Promise.reject(`Error: ${res.status} - ${res.statusText}`)
-      )
-      .catch((err) => console.log(err));
+    return fetch(`${this._baseURL}/cards`, {
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
   updateUserInformation(userInfo) {
@@ -29,13 +27,7 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(userInfo),
-    })
-      .then((res) =>
-        res.ok
-          ? res.json()
-          : Promise.reject(`Error: ${res.status} - ${res.statusText}`)
-      )
-      .catch((err) => console.log(err));
+    }).then(this._checkResponse);
   }
 
   addCard(cardData) {
@@ -43,26 +35,14 @@ export default class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(cardData),
-    })
-      .then((res) =>
-        res.ok
-          ? res.json()
-          : Promise.reject(`Error: ${res.status} - ${res.statusText}`)
-      )
-      .catch((err) => console.log(err));
+    }).then(this._checkResponse);
   }
 
   deleteCard(id) {
     return fetch(`${this._baseURL}/cards/${id}`, {
       method: "DELETE",
       headers: this._headers,
-    })
-      .then((res) =>
-        res.ok
-          ? res.json()
-          : Promise.reject(`Error: ${res.status} - ${res.statusText}`)
-      )
-      .catch((err) => console.log(err));
+    }).then(this._checkResponse);
   }
 
   addLike(id, userData) {
@@ -70,26 +50,14 @@ export default class Api {
       method: "PUT",
       body: JSON.stringify(userData),
       headers: this._headers,
-    })
-      .then((res) =>
-        res.ok
-          ? res.json()
-          : Promise.reject(`Error: ${res.status} - ${res.statusText}`)
-      )
-      .catch((err) => console.log(err));
+    }).then(this._checkResponse);
   }
 
   removeLike(id) {
     return fetch(`${this._baseURL}/cards/likes/${id}`, {
       method: "DELETE",
       headers: this._headers,
-    })
-      .then((res) =>
-        res.ok
-          ? res.json()
-          : Promise.reject(`Error: ${res.status} - ${res.statusText}`)
-      )
-      .catch((err) => console.log(err));
+    }).then(this._checkResponse);
   }
 
   updateUserAvartar(userAvatar) {
@@ -97,12 +65,6 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(userAvatar),
-    })
-      .then((res) =>
-        res.ok
-          ? res.json()
-          : Promise.reject(`Error: ${res.status} - ${res.statusText}`)
-      )
-      .catch((err) => console.log(err));
+    }).then(this._checkResponse);
   }
 }

@@ -1,9 +1,8 @@
-import { verifyEscapeKeyPressed } from "../utils/utils.js";
-
 export default class Popup {
-  constructor(popupSelector) {
+  constructor(popupSelector, verifyKeyPressed) {
     this._element = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
+    this._verifyKeyPressed = verifyKeyPressed;
   }
 
   open() {
@@ -17,7 +16,7 @@ export default class Popup {
   }
 
   _handleEscClose(evt) {
-    if (verifyEscapeKeyPressed(evt.key)) {
+    if (this._verifyKeyPressed(evt.key)) {
       this.close();
     }
   }
